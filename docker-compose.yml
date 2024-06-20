@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  database:
+    image: 'postgres:14-alpine'
+    ports:
+      - "5432:5432"
+    container_name: football-app-db
+    env_file:
+      ./env/postgres.env
+    volumes:
+      - football_app_data:/var/lib/postgresql/data
+volumes:
+  football_app_data:

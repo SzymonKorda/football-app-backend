@@ -1,2 +1,6 @@
-package com.example.demo;public interface TeamRepository {
+package com.example.demo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TeamRepository extends JpaRepository<Team, Integer> {
 }
