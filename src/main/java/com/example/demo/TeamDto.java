@@ -20,6 +20,6 @@ public class TeamDto {
 
     private Boolean national;
 
-    private String logoUrl;
+    private String logo;
 
 }

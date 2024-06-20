@@ -32,4 +32,13 @@ public class Team {
 
     @Column(name = "logoUrl")
     private String logoUrl;
+
+    public Team(TeamDto teamDto) {
+        this.name = teamDto.getName();
+        this.code = teamDto.getCode();
+        this.country = teamDto.getCountry();
+        this.founded = teamDto.getFounded();
+        this.national = teamDto.getNational();
+        this.logoUrl = teamDto.getLogo();
+    }
 }
