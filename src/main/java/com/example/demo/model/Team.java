@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.model;
 
+import com.example.demo.payload.TeamDto;
 import jakarta.persistence.*;
 import lombok.*;
 
