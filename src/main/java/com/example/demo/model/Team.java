@@ -34,6 +34,9 @@ public class Team {
     @Column(name = "logoUrl")
     private String logoUrl;
 
+    @Column(name = "rapidId")
+    private Integer rapidId;
+
     public Team(TeamDto teamDto) {
         this.name = teamDto.getName();
         this.code = teamDto.getCode();
@@ -41,5 +44,6 @@ public class Team {
         this.founded = teamDto.getFounded();
         this.national = teamDto.getNational();
         this.logoUrl = teamDto.getLogo();
+        this.rapidId = 39;
     }
 }

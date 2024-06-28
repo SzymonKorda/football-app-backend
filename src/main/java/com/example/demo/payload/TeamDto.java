@@ -22,4 +22,5 @@ public class TeamDto {
 
     private String logo;
 
+    private Integer rapidId;
 }
