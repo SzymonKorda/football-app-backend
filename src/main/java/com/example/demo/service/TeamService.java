@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.webclient.RapidWebClient;
 import com.example.demo.model.Team;
-import com.example.demo.payload.TeamInformationResponse;
 import com.example.demo.payload.TeamResponse;
 import com.example.demo.repository.TeamRepository;
 import org.springframework.stereotype.Service;
@@ -23,16 +22,19 @@ public class TeamService {
         this.rapidWebClient = rapidWebClient;
     }
 
-    public List<Team> retrieveTeams() {
-//        TeamInformationResponse teamInformationResponse = rapidWebClient.fetchTeams();
-//        List<Team> teams = teamInformationResponse.getResponse().stream()
-//                .map(TeamResponse::getTeam)
-//                .map(Team::new)
-//                .collect(toList());
-//        teamRepository.saveAll(teams);
+    public List<Team> retrieveTeams(Integer leagueId) {
+        return teamRepository.existsByRapidId(leagueId)
+                ? teamRepository.findAllByRapidId(leagueId)
+                : fetchAndSaveTeams(leagueId);
+    }
 
-        List<Team> teams = teamRepository.findAll();
-
+    private List<Team> fetchAndSaveTeams(Integer rapidId) {
+        List<Team> teams = rapidWebClient.fetchTeams(rapidId)
+                .getResponse().stream()
+                .map(TeamResponse::getTeam)
+                .map(Team::new)
+                .collect(toList());
+        teamRepository.saveAll(teams);
         return teams;
     }
 

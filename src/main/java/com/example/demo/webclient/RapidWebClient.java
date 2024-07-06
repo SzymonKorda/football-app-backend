@@ -14,10 +14,10 @@ public class RapidWebClient{
     @Value("${api_key}")
     private String apiKey;
 
-    public TeamInformationResponse fetchTeams() {
+    public TeamInformationResponse fetchTeams(Integer rapidId) {
         WebClient webClient = prepareWebClient();
         Mono<TeamInformationResponse> mono = webClient.get()
-                .uri("https://api-football-v1.p.rapidapi.com/v3/teams?league=39&season=2023")
+                .uri("https://api-football-v1.p.rapidapi.com/v3/teams?league=" + rapidId + "&season=2023")
                 .retrieve()
                 .bodyToMono(TeamInformationResponse.class);
         return mono.block();

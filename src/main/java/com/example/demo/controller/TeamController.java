@@ -5,10 +5,7 @@ import com.example.demo.model.Team;
 import com.example.demo.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,9 +19,9 @@ public class TeamController {
     }
 
     @CrossOrigin
-    @GetMapping("/teams")
-    public ResponseEntity<?> getTeams() {
-        List<Team> teams = teamService.retrieveTeams();
+    @GetMapping("/teams/league/{leagueId}")
+    public ResponseEntity<?> getTeams(@PathVariable Integer leagueId) {
+        List<Team> teams = teamService.retrieveTeams(leagueId);
         return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
