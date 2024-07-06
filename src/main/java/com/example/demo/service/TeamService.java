@@ -24,12 +24,15 @@ public class TeamService {
     }
 
     public List<Team> retrieveTeams() {
-        TeamInformationResponse teamInformationResponse = rapidWebClient.fetchTeams();
-        List<Team> teams = teamInformationResponse.getResponse().stream()
-                .map(TeamResponse::getTeam)
-                .map(Team::new)
-                .collect(toList());
-        teamRepository.saveAll(teams);
+//        TeamInformationResponse teamInformationResponse = rapidWebClient.fetchTeams();
+//        List<Team> teams = teamInformationResponse.getResponse().stream()
+//                .map(TeamResponse::getTeam)
+//                .map(Team::new)
+//                .collect(toList());
+//        teamRepository.saveAll(teams);
+
+        List<Team> teams = teamRepository.findAll();
+
         return teams;
     }
 

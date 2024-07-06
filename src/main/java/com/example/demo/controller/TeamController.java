@@ -5,6 +5,7 @@ import com.example.demo.model.Team;
 import com.example.demo.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class TeamController {
         this.teamService = teamService;
     }
 
+    @CrossOrigin
     @GetMapping("/teams")
     public ResponseEntity<?> getTeams() {
         List<Team> teams = teamService.retrieveTeams();
