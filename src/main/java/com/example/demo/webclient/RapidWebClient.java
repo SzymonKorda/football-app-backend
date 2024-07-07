@@ -1,5 +1,6 @@
 package com.example.demo.webclient;
 
+import com.example.demo.payload.LeagueInformationResponse;
 import com.example.demo.payload.TeamInformationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Component
-public class RapidWebClient{
+public class RapidWebClient {
     @Value("${api_key}")
     private String apiKey;
 
@@ -23,7 +24,21 @@ public class RapidWebClient{
         return mono.block();
     }
 
-    //TODO: skorda Find way how to autowire web client as dependency
+    public LeagueInformationResponse fetchLeague(Integer rapidId) {
+        WebClient webClient = prepareWebClient();
+        Mono<LeagueInformationResponse> mono = webClient.get()
+                //TODO skorda: Find a way to make it working
+//                .uri(uriBuilder -> uriBuilder
+//                        .path("https://api-football-v1.p.rapidapi.com/v3/leagues")
+//                        .queryParam("id", rapidId)
+//                        .build())
+                .uri("https://api-football-v1.p.rapidapi.com/v3/leagues?id=" + rapidId)
+                .retrieve()
+                .bodyToMono(LeagueInformationResponse.class);
+        return mono.block();
+    }
+
+    //TODO skorda: Find way how to autowire web client as dependency
     private WebClient prepareWebClient() {
         return WebClient.builder()
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

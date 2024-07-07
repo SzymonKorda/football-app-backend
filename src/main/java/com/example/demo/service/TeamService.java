@@ -22,10 +22,10 @@ public class TeamService {
         this.rapidWebClient = rapidWebClient;
     }
 
-    public List<Team> retrieveTeams(Integer leagueId) {
-        return teamRepository.existsByRapidId(leagueId)
-                ? teamRepository.findAllByRapidId(leagueId)
-                : fetchAndSaveTeams(leagueId);
+    public List<Team> retrieveTeams(Integer teamId) {
+        return teamRepository.existsByRapidId(teamId)
+                ? teamRepository.findAllByRapidId(teamId)
+                : fetchAndSaveTeams(teamId);
     }
 
     private List<Team> fetchAndSaveTeams(Integer rapidId) {

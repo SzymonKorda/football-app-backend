@@ -44,6 +44,7 @@ public class Team {
         this.founded = teamDto.getFounded();
         this.national = teamDto.getNational();
         this.logoUrl = teamDto.getLogo();
+        //TODO skorda: Remove this static assignment
         this.rapidId = 39;
     }
 }

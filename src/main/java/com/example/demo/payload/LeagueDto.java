@@ -7,13 +7,10 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeamDto {
+public class LeagueDto {
     private Integer id;
     private String name;
-    private String code;
-    private String country;
-    private Integer founded;
-    private Boolean national;
+    private String type;
     private String logo;
     private Integer rapidId;
 }
