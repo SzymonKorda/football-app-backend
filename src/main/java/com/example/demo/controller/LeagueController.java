@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.League;
 import com.example.demo.service.LeagueService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +14,16 @@ public class LeagueController {
     }
 
     @CrossOrigin
-    @GetMapping("/league/{leagueId}")
-    public ResponseEntity<?> getLeague(@PathVariable Integer leagueId) {
-        League league = leagueService.retrieveLeague(leagueId);
-        return new ResponseEntity<>(league, HttpStatus.OK);
+    @PostMapping("/admin/league")
+    public ResponseEntity<?> createLeague(@RequestBody String leagueName) {
+        return leagueService.createLeague(leagueName);
     }
+
+//    @CrossOrigin
+//    @GetMapping("/league/{leagueId}")
+//    public ResponseEntity<?> getLeague(@PathVariable Integer leagueId) {
+//        League league = leagueService.retrieveLeague(leagueId);
+//        return new ResponseEntity<>(league, HttpStatus.OK);
+//    }
 
 }

@@ -26,14 +26,14 @@ public class TeamService {
         this.rapidWebClient = rapidWebClient;
     }
 
-    public List<Team> retrieveTeams(Integer teamId) {
-
-        League league = leagueRepository.findByRapidId(teamId);
-
-        return teamRepository.existsByRapidId(teamId)
-                ? teamRepository.findAllByRapidId(teamId)
-                : fetchAndSaveTeams(teamId, league);
-    }
+//    public List<Team> retrieveTeams(Integer teamId) {
+//
+//        League league = leagueRepository.findByRapidId(teamId);
+//
+//        return teamRepository.existsByRapidId(teamId)
+//                ? teamRepository.findAllByRapidId(teamId)
+//                : fetchAndSaveTeams(teamId, league);
+//    }
 
     private List<Team> fetchAndSaveTeams(Integer rapidId, League league) {
         List<Team> teams = rapidWebClient.fetchTeams(rapidId)

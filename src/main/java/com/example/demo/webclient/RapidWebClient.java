@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Base64;
+
 @Component
 public class RapidWebClient {
     @Value("${api_key}")
@@ -23,7 +25,7 @@ public class RapidWebClient {
         return mono.block();
     }
 
-    public LeagueInformationResponse fetchLeague(Integer rapidId) {
+    public LeagueInformationResponse fetchLeague(String leagueName) {
         WebClient webClient = prepareWebClient();
         Mono<LeagueInformationResponse> mono = webClient.get()
                 //TODO skorda: Find a way to make it working
@@ -31,7 +33,7 @@ public class RapidWebClient {
 //                        .path("https://api-football-v1.p.rapidapi.com/v3/leagues")
 //                        .queryParam("id", rapidId)
 //                        .build())
-                .uri("https://api-football-v1.p.rapidapi.com/v3/leagues?id=" + rapidId)
+                .uri("https://api-football-v1.p.rapidapi.com/v3/leagues?name=" + leagueName)
                 .retrieve()
                 .bodyToMono(LeagueInformationResponse.class);
         return mono.block();

@@ -21,8 +21,8 @@ public class TeamController {
     @CrossOrigin
     @GetMapping("/teams/league/{leagueId}")
     public ResponseEntity<?> getTeams(@PathVariable Integer leagueId) {
-        List<Team> teams = teamService.retrieveTeams(leagueId);
-        return new ResponseEntity<>(teams, HttpStatus.OK);
+//        List<Team> teams = teamService.retrieveTeams(leagueId);
+        return new ResponseEntity<>("teams", HttpStatus.OK);
     }
 
 }
