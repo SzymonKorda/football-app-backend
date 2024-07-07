@@ -1,16 +1,16 @@
 package com.example.demo.service;
 
 import com.example.demo.model.League;
-import com.example.demo.repository.LeagueRepository;
-import com.example.demo.webclient.RapidWebClient;
 import com.example.demo.model.Team;
 import com.example.demo.payload.team.TeamResponse;
+import com.example.demo.repository.LeagueRepository;
 import com.example.demo.repository.TeamRepository;
+import com.example.demo.webclient.RapidWebClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class TeamService {
@@ -26,23 +26,20 @@ public class TeamService {
         this.rapidWebClient = rapidWebClient;
     }
 
-//    public List<Team> retrieveTeams(Integer teamId) {
-//
-//        League league = leagueRepository.findByRapidId(teamId);
-//
-//        return teamRepository.existsByRapidId(teamId)
-//                ? teamRepository.findAllByRapidId(teamId)
-//                : fetchAndSaveTeams(teamId, league);
-//    }
+    public ResponseEntity<?> createTeams(String leagueName) {
+        League league = leagueRepository.findByName(leagueName)
+                .orElseThrow(() -> new RuntimeException("League does not exists"));
+         if (teamRepository.existsByRapidId(league.getRapidId())) {
+             return new ResponseEntity<>("Teams already exist", HttpStatus.OK);
+         }
 
-    private List<Team> fetchAndSaveTeams(Integer rapidId, League league) {
-        List<Team> teams = rapidWebClient.fetchTeams(rapidId)
+        List<Team> teams = rapidWebClient.fetchTeams(league.getRapidId())
                 .getResponse().stream()
                 .map(TeamResponse::getTeam)
                 .map(teamDto -> new Team(teamDto, league))
-                .collect(toList());
+                .toList();
         teamRepository.saveAll(teams);
-        return teams;
+        return new ResponseEntity<>("Teams added successfully", HttpStatus.CREATED);
     }
 
 }

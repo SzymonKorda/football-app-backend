@@ -23,7 +23,6 @@ public class LeagueService {
     }
 
     public ResponseEntity<?> createLeague(String leagueName) {
-
         Optional<League> leagueOptional = leagueRepository.findByName(leagueName);
         if (leagueOptional.isPresent()) {
             return new ResponseEntity<>("League already exists", HttpStatus.OK);
@@ -35,7 +34,7 @@ public class LeagueService {
                 .map(League::new)
                 .findFirst().orElse(null);
         leagueRepository.save(league);
-        return new ResponseEntity<>("League created", HttpStatus.CREATED);
+        return new ResponseEntity<>("League created successfully", HttpStatus.CREATED);
     }
 
 }

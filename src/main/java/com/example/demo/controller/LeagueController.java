@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.payload.league.CreateLeagueRequest;
 import com.example.demo.service.LeagueService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,8 @@ public class LeagueController {
 
     @CrossOrigin
     @PostMapping("/admin/league")
-    public ResponseEntity<?> createLeague(@RequestBody String leagueName) {
-        return leagueService.createLeague(leagueName);
+    public ResponseEntity<?> createLeague(@RequestBody CreateLeagueRequest request) {
+        return leagueService.createLeague(request.getLeagueName());
     }
 
 //    @CrossOrigin
