@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.League;
-import com.example.demo.payload.LeagueResponse;
+import com.example.demo.payload.league.LeagueResponse;
 import com.example.demo.repository.LeagueRepository;
 import com.example.demo.webclient.RapidWebClient;
 import org.springframework.stereotype.Service;

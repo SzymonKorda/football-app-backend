@@ -1,8 +1,7 @@
 package com.example.demo.webclient;
 
-import com.example.demo.payload.LeagueInformationResponse;
-import com.example.demo.payload.TeamInformationResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.payload.league.LeagueInformationResponse;
+import com.example.demo.payload.team.TeamInformationResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

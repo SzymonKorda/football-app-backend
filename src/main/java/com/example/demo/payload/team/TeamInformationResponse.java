@@ -1,14 +1,16 @@
-package com.example.demo.payload;
+package com.example.demo.payload.team;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeamResponse {
-    private TeamDto team;
+public class TeamInformationResponse {
+    private List<TeamResponse> response;
 }

@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.payload.LeagueDto;
+import com.example.demo.payload.league.LeagueDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

@@ -4,7 +4,7 @@ import com.example.demo.model.League;
 import com.example.demo.repository.LeagueRepository;
 import com.example.demo.webclient.RapidWebClient;
 import com.example.demo.model.Team;
-import com.example.demo.payload.TeamResponse;
+import com.example.demo.payload.team.TeamResponse;
 import com.example.demo.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 

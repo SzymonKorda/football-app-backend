@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.payload.TeamDto;
+import com.example.demo.payload.team.TeamDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
