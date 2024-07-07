@@ -1,8 +1,12 @@
 package com.example.demo.model;
 
 import com.example.demo.payload.LeagueDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +31,11 @@ public class League {
 
     @Column(name = "rapidId")
     private Integer rapidId;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "league")
+    private List<Team> teams = new ArrayList<>();
+
 
     public League(LeagueDto leagueDto) {
         this.name = leagueDto.getName();

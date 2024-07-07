@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import com.example.demo.payload.TeamDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,13 +38,19 @@ public class Team {
     @Column(name = "rapidId")
     private Integer rapidId;
 
-    public Team(TeamDto teamDto) {
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "leagueId")
+    private League league;
+
+    public Team(TeamDto teamDto, League league) {
         this.name = teamDto.getName();
         this.code = teamDto.getCode();
         this.country = teamDto.getCountry();
         this.founded = teamDto.getFounded();
         this.national = teamDto.getNational();
         this.logoUrl = teamDto.getLogo();
+        this.league = league;
         //TODO skorda: Remove this static assignment
         this.rapidId = 39;
     }

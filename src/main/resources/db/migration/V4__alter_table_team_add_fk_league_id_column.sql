@@ -1,0 +1,5 @@
+ALTER TABLE team
+    ADD league_id INTEGER;
+
+ALTER TABLE team
+    ADD CONSTRAINT FK_TEAM_ON_LEAGUEID FOREIGN KEY (league_id) REFERENCES league (id);
