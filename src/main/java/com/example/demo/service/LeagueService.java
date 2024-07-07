@@ -37,4 +37,8 @@ public class LeagueService {
         return new ResponseEntity<>("League created successfully", HttpStatus.CREATED);
     }
 
+    public League retrieveLeague(Integer leagueId) {
+        return leagueRepository.findById(leagueId).orElse(null);
+    }
+
 }

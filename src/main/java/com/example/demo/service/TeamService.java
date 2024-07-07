@@ -42,4 +42,8 @@ public class TeamService {
         return new ResponseEntity<>("Teams added successfully", HttpStatus.CREATED);
     }
 
+    public List<Team> retrieveTeams() {
+        return teamRepository.findAll();
+    }
+
 }

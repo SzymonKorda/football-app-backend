@@ -9,6 +9,10 @@ import java.util.Optional;
 @Repository
 public interface LeagueRepository extends JpaRepository<League, Integer> {
     boolean existsByRapidId(Integer rapidId);
+
     Optional<League> findByName(String leagueName);
+
+    Optional<League> findById(Integer leagueId);
+
     Optional<League> findByRapidId(Integer rapidId);
 }
