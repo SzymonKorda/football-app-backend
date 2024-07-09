@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -42,6 +45,10 @@ public class Team {
     @ManyToOne
     @JoinColumn(name = "leagueId")
     private League league;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "team")
+    private List<Player> players = new ArrayList<>();
 
     public Team(TeamDto teamDto, League league) {
         this.name = teamDto.getName();
