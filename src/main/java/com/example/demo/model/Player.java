@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.payload.player.PlayerDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,10 +33,10 @@ public class Player {
     private String nationality;
 
     @Column(name = "height")
-    private Integer height;
+    private String height;
 
     @Column(name = "weight")
-    private Integer weight;
+    private String weight;
 
     @Column(name = "injured")
     private Boolean injured;
@@ -50,4 +51,17 @@ public class Player {
     @ManyToOne
     @JoinColumn(name = "teamId")
     private Team team;
+
+    public Player(PlayerDto playerDto) {
+        this.name = playerDto.getName();
+        this.firstName = playerDto.getFirstname();
+        this.lastName = playerDto.getLastname();
+        this.age = playerDto.getAge();
+        this.nationality = playerDto.getNationality();
+        this.height = playerDto.getHeight();
+        this.weight = playerDto.getWeight();
+        this.injured = playerDto.getInjured();
+        this.photoUrl = playerDto.getPhoto();
+        this.rapidId = playerDto.getRapidId();
+    }
 }
