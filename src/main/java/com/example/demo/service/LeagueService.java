@@ -22,7 +22,7 @@ public class LeagueService {
         this.rapidWebClient = rapidWebClient;
     }
 
-    public ResponseEntity<?> createLeague(String leagueName) {
+    public ResponseEntity<?> createLeague(String leagueName) throws InterruptedException {
         Optional<League> leagueOptional = leagueRepository.findByName(leagueName);
         if (leagueOptional.isPresent()) {
             return new ResponseEntity<>("League already exists", HttpStatus.OK);

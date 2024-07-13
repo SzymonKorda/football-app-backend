@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlayerStatisticsResponse {
-    private List<PlayerResponse> response;
-    private PlayerPaging paging;
+public class PlayerStatistics {
+    private PlayerTeam team;
 }

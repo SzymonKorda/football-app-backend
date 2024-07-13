@@ -26,7 +26,7 @@ public class RapidWebClient {
         return mono.block();
     }
 
-    public LeagueInformationResponse fetchLeague(String leagueName) {
+    public LeagueInformationResponse fetchLeague(String leagueName) throws InterruptedException {
         WebClient webClient = prepareWebClient();
         Mono<LeagueInformationResponse> mono = webClient.get()
                 //TODO skorda: Find a way to make it working
@@ -40,10 +40,10 @@ public class RapidWebClient {
         return mono.block();
     }
 
-    public PlayerStatisticsResponse fetchPlayers(Integer rapidId) {
+    public PlayerStatisticsResponse fetchPlayersByTeam(Integer rapidId, Integer page) {
         WebClient webClient = prepareWebClient();
         Mono<PlayerStatisticsResponse> mono = webClient.get()
-                .uri("https://api-football-v1.p.rapidapi.com/v3/players?league=" + rapidId + "&season=2023")
+                .uri("https://api-football-v1.p.rapidapi.com/v3/players?team=" + rapidId + "&season=2023&page=" + page)
                 .retrieve()
                 .bodyToMono(PlayerStatisticsResponse.class);
         return mono.block();

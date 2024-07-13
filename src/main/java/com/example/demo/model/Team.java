@@ -59,6 +59,6 @@ public class Team {
         this.logoUrl = teamDto.getLogo();
         this.league = league;
         //TODO skorda: Remove this static assignment
-        this.rapidId = 39;
+        this.rapidId = teamDto.getId();
     }
 }

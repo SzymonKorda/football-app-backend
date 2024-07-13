@@ -19,7 +19,7 @@ public class LeagueController {
 
     @CrossOrigin
     @PostMapping("/admin/league")
-    public ResponseEntity<?> createLeague(@RequestBody CreateLeagueRequest request) {
+    public ResponseEntity<?> createLeague(@RequestBody CreateLeagueRequest request) throws InterruptedException {
         return leagueService.createLeague(request.getLeagueName());
     }
 
