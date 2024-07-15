@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Builder
@@ -44,7 +46,7 @@ public class Player {
     @Column(name = "photoUrl")
     private String photoUrl;
 
-    @Column(name = "rapidId")
+    @Column(name = "rapidId", unique = true)
     private Integer rapidId;
 
     @JsonIgnore
@@ -63,5 +65,18 @@ public class Player {
         this.injured = playerDto.getInjured();
         this.photoUrl = playerDto.getPhoto();
         this.rapidId = playerDto.getId();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(rapidId, player.rapidId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(rapidId);
     }
 }

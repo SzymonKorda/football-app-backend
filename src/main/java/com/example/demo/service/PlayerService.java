@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -42,6 +43,8 @@ public class PlayerService {
     public ResponseEntity<?> createPlayers(Integer leagueId) {
 
         List<Team> teams = teamService.retrieveTeams();
+        List<Player> teamPlayers = new ArrayList<>();
+        List<Player> distinctPlayers = new ArrayList<>();
 
         teams.forEach(team -> {
             PlayerStatisticsResponse response = rapidWebClient.fetchPlayersByTeam(team.getRapidId(), 1);
@@ -52,7 +55,7 @@ public class PlayerService {
             }
             PlayerPaging paging = response.getPaging();
             List<Player> players = response.getResponse().stream().map(PlayerResponse::getPlayer).map(Player::new).toList();
-            List<Player> teamPlayers = new ArrayList<>(players);
+            teamPlayers.addAll(players);
             for (int i = 2; i <= paging.getTotal(); i++) {
                 PlayerStatisticsResponse nextResponse = rapidWebClient.fetchPlayersByTeam(team.getRapidId(), i);
                 List<Player> nextPlayers = nextResponse.getResponse().stream().map(PlayerResponse::getPlayer).map(Player::new).toList();
@@ -65,8 +68,11 @@ public class PlayerService {
                 }
             }
             teamPlayers.forEach(p -> p.setTeam(team));
-            playerRepository.saveAll(teamPlayers);
+            distinctPlayers.addAll(teamPlayers);
+            teamPlayers.clear();
         });
+        List<Player> players = distinctPlayers.stream().distinct().toList();
+        playerRepository.saveAll(players);
         return new ResponseEntity<>("Players created successfully", HttpStatus.CREATED);
     }
 
