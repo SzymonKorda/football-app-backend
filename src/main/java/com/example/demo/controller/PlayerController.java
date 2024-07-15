@@ -25,6 +25,12 @@ public class PlayerController {
     }
 
     @CrossOrigin
+    @PostMapping("/admin/player")
+    public ResponseEntity<?> createPlayer() {
+        return playerService.createPlayer(276);
+    }
+
+    @CrossOrigin
     @GetMapping("/players")
     public ResponseEntity<?> getPlayers() {
         List<Player> players = playerService.retrievePlayers();

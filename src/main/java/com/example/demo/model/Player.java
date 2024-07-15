@@ -62,6 +62,6 @@ public class Player {
         this.weight = playerDto.getWeight();
         this.injured = playerDto.getInjured();
         this.photoUrl = playerDto.getPhoto();
-        this.rapidId = playerDto.getRapidId();
+        this.rapidId = playerDto.getId();
     }
 }

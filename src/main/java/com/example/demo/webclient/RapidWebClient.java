@@ -1,6 +1,7 @@
 package com.example.demo.webclient;
 
 import com.example.demo.payload.league.LeagueInformationResponse;
+import com.example.demo.payload.player.PlayerResponse;
 import com.example.demo.payload.player.PlayerStatisticsResponse;
 import com.example.demo.payload.team.TeamInformationResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +45,15 @@ public class RapidWebClient {
         WebClient webClient = prepareWebClient();
         Mono<PlayerStatisticsResponse> mono = webClient.get()
                 .uri("https://api-football-v1.p.rapidapi.com/v3/players?team=" + rapidId + "&season=2023&page=" + page)
+                .retrieve()
+                .bodyToMono(PlayerStatisticsResponse.class);
+        return mono.block();
+    }
+
+    public PlayerStatisticsResponse fetchPlayer(Integer rapidId) {
+        WebClient webClient = prepareWebClient();
+        Mono<PlayerStatisticsResponse> mono = webClient.get()
+                .uri("https://api-football-v1.p.rapidapi.com/v3/players?id=" + rapidId + "&season=2023")
                 .retrieve()
                 .bodyToMono(PlayerStatisticsResponse.class);
         return mono.block();

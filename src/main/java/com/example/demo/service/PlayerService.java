@@ -32,6 +32,13 @@ public class PlayerService {
         this.teamRepository = teamRepository;
     }
 
+    public ResponseEntity<?> createPlayer(Integer rapidId) {
+        PlayerStatisticsResponse playerResponse = rapidWebClient.fetchPlayer(rapidId);
+        Player player = new Player(playerResponse.getResponse().get(0).getPlayer());
+        playerRepository.save(player);
+        return new ResponseEntity<>(player, HttpStatus.CREATED);
+    }
+
     public ResponseEntity<?> createPlayers(Integer leagueId) {
 
         List<Team> teams = teamService.retrieveTeams();

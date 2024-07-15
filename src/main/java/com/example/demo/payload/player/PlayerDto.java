@@ -18,5 +18,4 @@ public class PlayerDto {
     private String weight;
     private Boolean injured;
     private String photo;
-    private Integer rapidId;
 }
