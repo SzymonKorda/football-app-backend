@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import com.example.demo.model.League;
 import com.example.demo.model.Team;
 import com.example.demo.payload.team.CreateTeamsRequest;
+import com.example.demo.payload.team.FullTeamResponse;
 import com.example.demo.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,13 @@ public class TeamController {
     public ResponseEntity<?> getTeams() {
         List<Team> teams = teamService.retrieveTeams();
         return new ResponseEntity<>(teams, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/teams/{teamId}")
+    public ResponseEntity<?> getTeams(@PathVariable Integer teamId) {
+        FullTeamResponse team = new FullTeamResponse(teamService.getTeam(teamId));
+        return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
 }

@@ -46,4 +46,8 @@ public class TeamService {
         return teamRepository.findAll();
     }
 
+    public Team getTeam(Integer teamId) {
+        return this.teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team does not exists"));
+    }
+
 }
