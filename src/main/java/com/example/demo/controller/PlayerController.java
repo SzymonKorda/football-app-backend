@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Player;
+import com.example.demo.payload.player.FullPlayerResponse;
 import com.example.demo.payload.player.PlayerInformationResponseWithTeamName;
 import com.example.demo.service.PlayerService;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,12 @@ public class PlayerController {
         List<Player> players = playerService.retrievePlayers();
         List<PlayerInformationResponseWithTeamName> list = players.stream().map(PlayerInformationResponseWithTeamName::new).toList();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/players/{playerId}")
+    public ResponseEntity<?> getPlayers(@PathVariable Integer playerId) {
+        FullPlayerResponse player = new FullPlayerResponse(playerService.getPlayer(playerId));
+        return new ResponseEntity<>(player, HttpStatus.OK);
     }
 }

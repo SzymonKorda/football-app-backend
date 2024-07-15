@@ -79,4 +79,8 @@ public class PlayerService {
     public List<Player> retrievePlayers() {
         return playerRepository.findAll();
     }
+
+    public Player getPlayer(Integer playerId) {
+        return playerRepository.findById(playerId).orElseThrow(() -> new RuntimeException("Player does not exists"));
+    }
 }
