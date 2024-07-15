@@ -1,70 +1,68 @@
 package com.example.demo.webclient;
 
 import com.example.demo.payload.league.LeagueInformationResponse;
-import com.example.demo.payload.player.PlayerResponse;
 import com.example.demo.payload.player.PlayerStatisticsResponse;
 import com.example.demo.payload.team.TeamInformationResponse;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.Base64;
-
 @Component
 public class RapidWebClient {
-    @Value("${api_key}")
-    private String apiKey;
 
-    public TeamInformationResponse fetchTeams(Integer rapidId) {
-        WebClient webClient = prepareWebClient();
-        Mono<TeamInformationResponse> mono = webClient.get()
-                .uri("https://api-football-v1.p.rapidapi.com/v3/teams?league=" + rapidId + "&season=2023")
-                .retrieve()
-                .bodyToMono(TeamInformationResponse.class);
-        return mono.block();
+    private final WebClient webClient;
+
+    public RapidWebClient(WebClient webClient) {
+        this.webClient = webClient;
     }
 
-    public LeagueInformationResponse fetchLeague(String leagueName) throws InterruptedException {
-        WebClient webClient = prepareWebClient();
-        Mono<LeagueInformationResponse> mono = webClient.get()
-                //TODO skorda: Find a way to make it working
-//                .uri(uriBuilder -> uriBuilder
-//                        .path("https://api-football-v1.p.rapidapi.com/v3/leagues")
-//                        .queryParam("id", rapidId)
-//                        .build())
-                .uri("https://api-football-v1.p.rapidapi.com/v3/leagues?name=" + leagueName)
+    public TeamInformationResponse fetchTeams(Integer rapidId) {
+        Mono<TeamInformationResponse> response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/teams")
+                        .queryParam("league", rapidId)
+                        .queryParam("season", 2023)
+                        .build()
+                )
+                .retrieve()
+                .bodyToMono(TeamInformationResponse.class);
+        return response.block();
+    }
+
+    public LeagueInformationResponse fetchLeague(String leagueName) {
+        Mono<LeagueInformationResponse> response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/leagues")
+                        .queryParam("name", leagueName)
+                        .build())
                 .retrieve()
                 .bodyToMono(LeagueInformationResponse.class);
-        return mono.block();
+        return response.block();
     }
 
     public PlayerStatisticsResponse fetchPlayersByTeam(Integer rapidId, Integer page) {
-        WebClient webClient = prepareWebClient();
-        Mono<PlayerStatisticsResponse> mono = webClient.get()
-                .uri("https://api-football-v1.p.rapidapi.com/v3/players?team=" + rapidId + "&season=2023&page=" + page)
+        Mono<PlayerStatisticsResponse> response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/players")
+                        .queryParam("team", rapidId)
+                        .queryParam("season", 2023)
+                        .queryParam("page", page)
+                        .build()
+                )
                 .retrieve()
                 .bodyToMono(PlayerStatisticsResponse.class);
-        return mono.block();
+        return response.block();
     }
 
     public PlayerStatisticsResponse fetchPlayer(Integer rapidId) {
-        WebClient webClient = prepareWebClient();
-        Mono<PlayerStatisticsResponse> mono = webClient.get()
-                .uri("https://api-football-v1.p.rapidapi.com/v3/players?id=" + rapidId + "&season=2023")
+        Mono<PlayerStatisticsResponse> response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/players")
+                        .queryParam("id", rapidId)
+                        .queryParam("season", 2023)
+                        .build())
                 .retrieve()
                 .bodyToMono(PlayerStatisticsResponse.class);
-        return mono.block();
-    }
-
-    //TODO skorda: Find way how to autowire web client as dependency
-    private WebClient prepareWebClient() {
-        return WebClient.builder()
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader("x-rapidapi-key", apiKey)
-                .defaultHeader("x-rapidapi-host", "api-football-v1.p.rapidapi.com")
-                .build();
+        return response.block();
     }
 }
