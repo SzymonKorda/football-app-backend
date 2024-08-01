@@ -2,7 +2,7 @@ package com.example.demo.webclient;
 
 import com.example.demo.payload.league.LeagueInformationResponse;
 import com.example.demo.payload.player.PlayerStatisticsResponse;
-import com.example.demo.payload.team.TeamInformationResponse;
+import com.example.demo.payload.team.rapid.RapidTeamInformationResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -16,8 +16,8 @@ public class RapidWebClient {
         this.webClient = webClient;
     }
 
-    public TeamInformationResponse fetchTeams(Integer rapidId) {
-        Mono<TeamInformationResponse> response = webClient.get()
+    public RapidTeamInformationResponse fetchTeams(Integer rapidId) {
+        Mono<RapidTeamInformationResponse> response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/teams")
                         .queryParam("league", rapidId)
@@ -25,7 +25,7 @@ public class RapidWebClient {
                         .build()
                 )
                 .retrieve()
-                .bodyToMono(TeamInformationResponse.class);
+                .bodyToMono(RapidTeamInformationResponse.class);
         return response.block();
     }
 

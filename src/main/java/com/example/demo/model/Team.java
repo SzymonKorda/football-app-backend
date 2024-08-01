@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.payload.team.TeamDto;
+import com.example.demo.payload.team.rapid.RapidTeam;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -50,15 +50,15 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Player> players = new ArrayList<>();
 
-    public Team(TeamDto teamDto, League league) {
-        this.name = teamDto.getName();
-        this.code = teamDto.getCode();
-        this.country = teamDto.getCountry();
-        this.founded = teamDto.getFounded();
-        this.national = teamDto.getNational();
-        this.logoUrl = teamDto.getLogo();
+    public Team(RapidTeam rapidTeam, League league) {
+        this.name = rapidTeam.name();
+        this.code = rapidTeam.code();
+        this.country = rapidTeam.country();
+        this.founded = rapidTeam.founded();
+        this.national = rapidTeam.national();
+        this.logoUrl = rapidTeam.logo();
         this.league = league;
         //TODO skorda: Remove this static assignment
-        this.rapidId = teamDto.getId();
+        this.rapidId = rapidTeam.id();
     }
 }

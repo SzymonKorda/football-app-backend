@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.model.League;
-import com.example.demo.model.Team;
-import com.example.demo.payload.team.CreateTeamsRequest;
-import com.example.demo.payload.team.FullTeamResponse;
+import com.example.demo.payload.team.api.CreateTeamsRequest;
+import com.example.demo.payload.team.api.FullTeamResponse;
+import com.example.demo.payload.team.api.SimpleTeamResponse;
 import com.example.demo.service.TeamService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/teams")
 public class TeamController {
     private final TeamService teamService;
 
@@ -21,24 +21,28 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @CrossOrigin
-    @PostMapping("/admin/team")
-    public ResponseEntity<?> createTeams(@RequestBody CreateTeamsRequest request) {
-       return teamService.createTeams(request.getLeagueName());
+    @PostMapping("/admin")
+    public ResponseEntity<List<FullTeamResponse>> createTeams(@RequestBody CreateTeamsRequest request) {
+        List<FullTeamResponse> teams = teamService.createTeams(request.leagueName())
+                .stream()
+                .map(FullTeamResponse::from)
+                .toList();
+        return ResponseEntity.status(HttpStatus.CREATED).body(teams);
     }
 
-    @CrossOrigin
-    @GetMapping("/teams")
-    public ResponseEntity<?> getTeams() {
-        List<Team> teams = teamService.retrieveTeams();
-        return new ResponseEntity<>(teams, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<SimpleTeamResponse>> getTeams() {
+        List<SimpleTeamResponse> teams = teamService.retrieveTeams()
+                .stream()
+                .map(SimpleTeamResponse::from)
+                .toList();
+        return ResponseEntity.ok(teams);
     }
 
-    @CrossOrigin
-    @GetMapping("/teams/{teamId}")
-    public ResponseEntity<?> getTeams(@PathVariable Integer teamId) {
-        FullTeamResponse team = new FullTeamResponse(teamService.getTeam(teamId));
-        return new ResponseEntity<>(team, HttpStatus.OK);
+    @GetMapping("/{teamId}")
+    public ResponseEntity<FullTeamResponse> getTeam(@PathVariable Integer teamId) {
+        FullTeamResponse team = FullTeamResponse.from(teamService.getTeam(teamId));
+        return ResponseEntity.ok(team);
     }
 
 }

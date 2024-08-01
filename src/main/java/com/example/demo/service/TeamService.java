@@ -1,8 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.LeagueNotFoundException;
+import com.example.demo.exception.TeamAlreadyExistsException;
+import com.example.demo.exception.TeamNotFoundException;
 import com.example.demo.model.League;
 import com.example.demo.model.Team;
-import com.example.demo.payload.team.TeamResponse;
+import com.example.demo.payload.team.rapid.RapidTeamResponse;
 import com.example.demo.repository.LeagueRepository;
 import com.example.demo.repository.TeamRepository;
 import com.example.demo.webclient.RapidWebClient;
@@ -19,27 +22,28 @@ public class TeamService {
     private final LeagueRepository leagueRepository;
     private final RapidWebClient rapidWebClient;
 
-
     public TeamService(TeamRepository teamRepository, LeagueRepository leagueRepository, RapidWebClient rapidWebClient) {
         this.teamRepository = teamRepository;
         this.leagueRepository = leagueRepository;
         this.rapidWebClient = rapidWebClient;
     }
 
-    public ResponseEntity<?> createTeams(String leagueName) {
+    public List<Team> createTeams(String leagueName) {
         League league = leagueRepository.findByName(leagueName)
-                .orElseThrow(() -> new RuntimeException("League does not exists"));
-         if (teamRepository.existsByRapidId(league.getRapidId())) {
-             return new ResponseEntity<>("Teams already exist", HttpStatus.OK);
-         }
+                .orElseThrow(LeagueNotFoundException::new);
+
+        if (teamRepository.existsByRapidId(league.getRapidId())) {
+            throw new TeamAlreadyExistsException();
+        }
 
         List<Team> teams = rapidWebClient.fetchTeams(league.getRapidId())
-                .getResponse().stream()
-                .map(TeamResponse::getTeam)
-                .map(teamDto -> new Team(teamDto, league))
+                .response()
+                .stream()
+                .map(RapidTeamResponse::team)
+                .map(rapidTeam -> new Team(rapidTeam, league))
                 .toList();
-        teamRepository.saveAll(teams);
-        return new ResponseEntity<>("Teams added successfully", HttpStatus.CREATED);
+
+        return teamRepository.saveAll(teams);
     }
 
     public List<Team> retrieveTeams() {
@@ -47,7 +51,7 @@ public class TeamService {
     }
 
     public Team getTeam(Integer teamId) {
-        return this.teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team does not exists"));
+        return this.teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
     }
 
 }
