@@ -1,6 +1,6 @@
 package com.example.demo.webclient;
 
-import com.example.demo.payload.league.LeagueInformationResponse;
+import com.example.demo.payload.league.rapid.RapidLeagueInformationResponse;
 import com.example.demo.payload.player.PlayerStatisticsResponse;
 import com.example.demo.payload.team.rapid.RapidTeamInformationResponse;
 import org.springframework.stereotype.Component;
@@ -29,14 +29,14 @@ public class RapidWebClient {
         return response.block();
     }
 
-    public LeagueInformationResponse fetchLeague(String leagueName) {
-        Mono<LeagueInformationResponse> response = webClient.get()
+    public RapidLeagueInformationResponse fetchLeague(String leagueName) {
+        Mono<RapidLeagueInformationResponse> response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/leagues")
                         .queryParam("name", leagueName)
                         .build())
                 .retrieve()
-                .bodyToMono(LeagueInformationResponse.class);
+                .bodyToMono(RapidLeagueInformationResponse.class);
         return response.block();
     }
 

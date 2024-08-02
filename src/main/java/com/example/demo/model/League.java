@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.payload.league.LeagueDto;
+import com.example.demo.payload.league.rapid.RapidLeague;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,10 +37,10 @@ public class League {
     private List<Team> teams = new ArrayList<>();
 
 
-    public League(LeagueDto leagueDto) {
-        this.name = leagueDto.getName();
-        this.type = leagueDto.getType();
-        this.logoUrl = leagueDto.getLogo();
+    public League(RapidLeague rapidLeague) {
+        this.name = rapidLeague.name();
+        this.type = rapidLeague.type();
+        this.logoUrl = rapidLeague.logo();
         //TODO skorda: Remove this static assignment
         this.rapidId = 39;
     }

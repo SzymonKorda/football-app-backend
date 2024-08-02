@@ -41,7 +41,7 @@ public class TeamController {
 
     @GetMapping("/{teamId}")
     public ResponseEntity<FullTeamResponse> getTeam(@PathVariable Integer teamId) {
-        FullTeamResponse team = FullTeamResponse.from(teamService.getTeam(teamId));
+        var team = FullTeamResponse.from(teamService.retrieveTeam(teamId));
         return ResponseEntity.ok(team);
     }
 

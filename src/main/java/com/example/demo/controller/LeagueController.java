@@ -1,15 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.League;
-import com.example.demo.payload.league.CreateLeagueRequest;
+import com.example.demo.payload.league.api.CreateLeagueRequest;
+import com.example.demo.payload.league.api.FullLeagueResponse;
 import com.example.demo.service.LeagueService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/league")
 public class LeagueController {
     private final LeagueService leagueService;
 
@@ -17,17 +17,16 @@ public class LeagueController {
         this.leagueService = leagueService;
     }
 
-    @CrossOrigin
-    @PostMapping("/admin/league")
-    public ResponseEntity<?> createLeague(@RequestBody CreateLeagueRequest request) throws InterruptedException {
-        return leagueService.createLeague(request.getLeagueName());
+    @PostMapping("/admin")
+    public ResponseEntity<FullLeagueResponse> createLeague(@RequestBody CreateLeagueRequest request) {
+        var league = FullLeagueResponse.from(leagueService.createLeague(request.leagueName()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(league);
     }
 
-    @CrossOrigin
-    @GetMapping("/league/{leagueId}")
-    public ResponseEntity<?> getLeague(@PathVariable Integer leagueId) {
-        League league = leagueService.retrieveLeague(leagueId);
-        return new ResponseEntity<>(league, HttpStatus.OK);
+    @GetMapping("/{leagueId}")
+    public ResponseEntity<FullLeagueResponse> getLeague(@PathVariable Integer leagueId) {
+        var league = FullLeagueResponse.from(leagueService.retrieveLeague(leagueId));
+        return ResponseEntity.ok(league);
     }
 
 }
