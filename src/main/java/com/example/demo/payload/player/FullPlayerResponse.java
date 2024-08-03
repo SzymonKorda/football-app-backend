@@ -1,39 +1,34 @@
 package com.example.demo.payload.player;
 
 import com.example.demo.model.Player;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class FullPlayerResponse {
-    private Integer id;
-    private String name;
-    private String firstName;
-    private String lastName;
-    private Integer age;
-    private String nationality;
-    private String height;
-    private String weight;
-    private Boolean injured;
-    private String photoUrl;
-    private Integer rapidId;
-
-    public FullPlayerResponse(Player player) {
-        this.id = player.getId();
-        this.name = player.getName();
-        this.firstName = player.getFirstName();
-        this.lastName = player.getLastName();
-        this.age = player.getAge();
-        this.nationality = player.getNationality();
-        this.height = player.getHeight();
-        this.weight = player.getWeight();
-        this.injured = player.getInjured();
-        this.photoUrl = player.getPhotoUrl();
-        this.rapidId = player.getRapidId();
+public record FullPlayerResponse
+        (Integer id,
+         String name,
+         String firstName,
+         String lastName,
+         Integer age,
+         String nationality,
+         String height,
+         String weight,
+         Boolean injured,
+         String photoUrl,
+         Integer rapidId,
+         String teamName) {
+    public static FullPlayerResponse from(Player player) {
+        return new FullPlayerResponse(
+                player.getId(),
+                player.getName(),
+                player.getFirstName(),
+                player.getLastName(),
+                player.getAge(),
+                player.getNationality(),
+                player.getHeight(),
+                player.getWeight(),
+                player.getInjured(),
+                player.getPhotoUrl(),
+                player.getRapidId(),
+                player.getTeam().getName()
+        );
     }
 }

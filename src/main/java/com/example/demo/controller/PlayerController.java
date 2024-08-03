@@ -1,17 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Player;
 import com.example.demo.payload.player.FullPlayerResponse;
-import com.example.demo.payload.player.PlayerInformationResponseWithTeamName;
 import com.example.demo.service.PlayerService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/players")
 public class PlayerController {
     private final PlayerService playerService;
 
@@ -19,30 +15,23 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @CrossOrigin
-    @PostMapping("/admin/players")
+    @PostMapping("/admin")
     public ResponseEntity<?> createPlayers() {
         return playerService.createPlayers(39);
     }
 
-    @CrossOrigin
-    @PostMapping("/admin/player")
-    public ResponseEntity<?> createPlayer() {
-        return playerService.createPlayer(276);
-    }
-
-    @CrossOrigin
-    @GetMapping("/players")
+    @GetMapping
     public ResponseEntity<?> getPlayers() {
-        List<Player> players = playerService.retrievePlayers();
-        List<PlayerInformationResponseWithTeamName> list = players.stream().map(PlayerInformationResponseWithTeamName::new).toList();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        var players = playerService.retrievePlayers()
+                .stream()
+                .map(FullPlayerResponse::from)
+                .toList();
+        return ResponseEntity.ok(players);
     }
 
-    @CrossOrigin
-    @GetMapping("/players/{playerId}")
-    public ResponseEntity<?> getPlayers(@PathVariable Integer playerId) {
-        FullPlayerResponse player = new FullPlayerResponse(playerService.getPlayer(playerId));
-        return new ResponseEntity<>(player, HttpStatus.OK);
+    @GetMapping("/{playerId}")
+    public ResponseEntity<FullPlayerResponse> getPlayers(@PathVariable Integer playerId) {
+        var player = FullPlayerResponse.from(playerService.getPlayer(playerId));
+        return ResponseEntity.ok(player);
     }
 }
