@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/teams")
+@RequestMapping("/api")
 public class TeamController {
     private final TeamService teamService;
 
@@ -21,7 +21,7 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @PostMapping("/admin")
+    @PostMapping("/teams/admin")
     public ResponseEntity<List<FullTeamResponse>> createTeams(@RequestBody CreateTeamsRequest request) {
         List<FullTeamResponse> teams = teamService.createTeams(request.leagueName())
                 .stream()
@@ -30,7 +30,7 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.CREATED).body(teams);
     }
 
-    @GetMapping
+    @GetMapping("/teams")
     public ResponseEntity<List<SimpleTeamResponse>> getTeams() {
         List<SimpleTeamResponse> teams = teamService.retrieveTeams()
                 .stream()
@@ -39,7 +39,7 @@ public class TeamController {
         return ResponseEntity.ok(teams);
     }
 
-    @GetMapping("/{teamId}")
+    @GetMapping("/teams/{teamId}")
     public ResponseEntity<FullTeamResponse> getTeam(@PathVariable Integer teamId) {
         var team = FullTeamResponse.from(teamService.retrieveTeam(teamId));
         return ResponseEntity.ok(team);
