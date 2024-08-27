@@ -1,0 +1,42 @@
+openapi: '3.0.1'
+
+info:
+  title: Team
+  version: "1"
+  description: Team resources
+
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+paths:
+  /teams:
+    get:
+      summary: Get teams
+      operationId: getTeams
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleTeamResponse'
+
+components:
+  schemas:
+    SimpleTeamResponse:
+      type: object
+      description: Simple team response
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        code:
+          type: string
+        country:
+          type: string
+        founded:
+          type: integer
+        logoUrl:
+          type: string
